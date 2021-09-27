@@ -19,6 +19,10 @@ class AlienInvasion:
         redrawn on every pass through the loop, so it can be updated with any changes triggered by user input.'''
         pygame.display.set_caption("Alien Invasion")
 
+        # set the background color
+        self.bg_color = (230, 230, 230) # colors in Pygame are specified as RGB colors (red, green, blue) that range from 0-255
+        # you can mix values to create up to 16 million colors. this produces a light gray background color 
+
     def run_game(self): # game is controlled by the run_game() method
         '''Start the main loop for the game.'''
         while True: # runs continually
@@ -32,6 +36,9 @@ class AlienInvasion:
                 for loop to run.'''
                 if event.type == pygame.QUIT: # to detect and respond to specific events like clicking the game window's close button
                     sys.exit() # exits the game
+
+            # redraw the screen during each pass through the loop
+            self.screen.fill(self.bg_color) # fill the screen with the background color; fill() acts on a surface
 
             # Make the most recently drawn screen visible.
             pygame.display.flip()
