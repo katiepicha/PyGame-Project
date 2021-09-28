@@ -1,0 +1,33 @@
+'''To draw the player's ship on the screen, we will load an image and then use the Pygame blit() method to draw the image. It is
+important to pay attention to licensing when choosing artwork for games. It is easiest to use a bitmap (.bmp) file because Pygame
+loads bitmaps by default. It is also important to pay attention to the background color of your image.'''
+
+import pygame
+
+class Ship:
+    '''A class to manage the ship.'''
+
+    def __init__(self, ai_game): # takes the self reference and a reference to the current instance of the AlienInvasion class
+        # this gives Ship access to all the game resources defined in AlienInvasion
+        '''Initialize the ship and set its starting position.'''
+        self.screen = ai_game.screen # assign the screen to an attribute of Ship so we can access easily in all methods in the class
+        self.screen_rect = ai_game.screen.get_rect() # allows us to place the ship in the correct location on the screen
+        '''Pygame lets you treat all game elements like rectangles (rects). In order to figure out if two game elements have collided,
+        rectangles make that recognition much easier.'''
+
+        # Load the ship image and get its rect.
+        self.image = pygame.image.load('images/ship.bmp') # loads the image and give it the location of our ship image
+        # this function (above) returns a surface representing the ship
+        self.rect = self.image.get_rect()
+        # when the image is loaded, we call get_rect() to access the ship surface's rect attribute so we can use it to place the ship
+
+        '''When you're working with a rect object, you can use x- and y- coordinates at the top, bottom, left, and right edges of the
+        rectangle, as well as the center to place the object. You can also use attributes of rect to place an object. Options: center, 
+        centerx, centery, top, bottom, left, right, midbottom, midtop, midleft, midright.'''
+        # Start each new ship at the bottom center of the screen.
+        self.rect.midbottom = self.screen_rect.midbottom # uses this attribute to center horizontally and align at the bottom
+
+
+    def blitme(self):
+        '''Draw the ship at its current location.'''
+        self.screen.blit(self.image, self.rect) # draws the image to the screen at the position specified by self.rect.
