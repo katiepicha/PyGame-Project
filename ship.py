@@ -27,6 +27,16 @@ class Ship:
         # Start each new ship at the bottom center of the screen.
         self.rect.midbottom = self.screen_rect.midbottom # uses this attribute to center horizontally and align at the bottom
 
+        '''When the player holds down the right arrow key, we want the ship to continue moving right until the player releases
+        the key. When the key is released, the game will detect a pygame.KEYUP event, and we can use the KEYUP and KEYDOWN events
+        together with a flag to implement continuous motion. When the flag is false (no key press), the ship will be motionless.'''
+        # Movement flag
+        self.moving_right = False
+
+    def update(self): # not a helper method because it will be called through an instance of ship
+        '''Update the ship's position based on the movement flag.'''
+        if self.moving_right:
+            self.rect.x += 1
 
     def blitme(self):
         '''Draw the ship at its current location.'''

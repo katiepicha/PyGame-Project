@@ -37,6 +37,7 @@ class AlienInvasion:
         while True: # runs continually
             # helper methods: do work inside a class but are not meant to be called through an instance
             self._check_events() # allows you to manage events separately from other aspects of the game
+            self.ship.update() # allows position to be updated in response to player's input and ensures updated position will be used
             self._update_screen() # a separate method to simplify code
 
     def _check_events(self):
@@ -52,8 +53,10 @@ class AlienInvasion:
                 sys.exit() # exits the game
             elif event.type == pygame.KEYDOWN: # KEYDOWN event = any key press by the user
                 if event.key == pygame.K_RIGHT: # check whether the key pressed was the right arrow key
-                    # Move the ship to the right.
-                    self.ship.rect.x += 1
+                    self.ship.moving_right = True # set moving_right to true when the key is pressed
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    self.ship.moving_right = False # set moving_right to false when key is released
 
     def _update_screen(self):
         # redraw the screen during each pass through the loop
