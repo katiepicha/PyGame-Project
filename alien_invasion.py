@@ -50,6 +50,10 @@ class AlienInvasion:
             for loop to run.'''
             if event.type == pygame.QUIT: # to detect and respond to specific events like clicking the game window's close button
                 sys.exit() # exits the game
+            elif event.type == pygame.KEYDOWN: # KEYDOWN event = any key press by the user
+                if event.key == pygame.K_RIGHT: # check whether the key pressed was the right arrow key
+                    # Move the ship to the right.
+                    self.ship.rect.x += 1
 
     def _update_screen(self):
         # redraw the screen during each pass through the loop
