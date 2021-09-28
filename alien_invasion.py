@@ -35,28 +35,31 @@ class AlienInvasion:
     def run_game(self): # game is controlled by the run_game() method
         '''Start the main loop for the game.'''
         while True: # runs continually
-            # Watch for keyboard and mouse events.
-            for event in pygame.event.get(): # event loop and code manages screen updates
-                ''' An event is an action that the user performs while playing the game, such as pressing a key or moving a mouse
-                to make our program respond to events, we write this loop to listen for events and perform appropriate tasks
-                depending on the kind of events that occur.''' 
-                ''' pygame.event.get() is used to access the events that pygame detects. This function return a list of events
-                that have taken place since the last time the function was called. Any keyboard or mouse event will cause this
-                for loop to run.'''
-                if event.type == pygame.QUIT: # to detect and respond to specific events like clicking the game window's close button
-                    sys.exit() # exits the game
+            self._check_events() # helper method that does work inside a class but is not meant to be called through an instance
+            # allows you to manage events separately from other aspects of the game
 
             # redraw the screen during each pass through the loop
             self.screen.fill(self.settings.bg_color) # fill the screen with the background color; fill() acts on a surface
             # we use self.settings to access the background color when filling the screen
             self.ship.blitme() # draws the ship on the screen on top of the background
 
-
             # Make the most recently drawn screen visible.
             pygame.display.flip()
             ''' draws an empty screen on each pass through the while loop, erasing the old screen so only the new screen is
             visible. When we move the game elements around, pygame.display.flip() continually updates the display to show the
             new positions of game elements and hides the old ones, creating the illusion of smooth movement.'''
+
+    def check_events(self):
+        # Watch for keyboard and mouse events.
+        for event in pygame.event.get(): # event loop and code manages screen updates
+            ''' An event is an action that the user performs while playing the game, such as pressing a key or moving a mouse
+            to make our program respond to events, we write this loop to listen for events and perform appropriate tasks
+            depending on the kind of events that occur.''' 
+            ''' pygame.event.get() is used to access the events that pygame detects. This function return a list of events
+            that have taken place since the last time the function was called. Any keyboard or mouse event will cause this
+            for loop to run.'''
+            if event.type == pygame.QUIT: # to detect and respond to specific events like clicking the game window's close button
+                sys.exit() # exits the game
 
 if __name__ == '__main__': # only runs if the file is called directly
     # Make a game instance, and run the game.
