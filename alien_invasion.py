@@ -2,16 +2,20 @@ import sys # use tools in this module to exit the game when the player quits
 
 import pygame # contains the functionality we need to make a game
 
+from settings import Settings
+
 class AlienInvasion:
     '''Overall class to manage game assets and behavior.'''
 
     def __init__(self):
         '''Initialize the game, and create game resources.'''
         pygame.init() # initializes the background settings that pygame needs to work properly
+        self.settings = Settings() # create an instance of Settings
 
-        self.screen = pygame.display.set_mode((1200, 800)) 
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height)) 
         # creates a display window on which we'll draw all the game's graphical elements
         # (1200, 800) is a tuple that defines the dimensions of the game window, which is 1200 pixels wide and 800 pixels high
+        # we use the screen_width and screen_height attributes of self.settings
         # setting the display to self.screen attribute will allow it to be available in all methods of the class
         ''' The object we assigned to self.screen is a surface. A surface in Pygame is a part of the screen where a game element
         can be displayed. Each element in the game, like an alien or a ship, is its own surface. The surface returned by
@@ -38,7 +42,8 @@ class AlienInvasion:
                     sys.exit() # exits the game
 
             # redraw the screen during each pass through the loop
-            self.screen.fill(self.bg_color) # fill the screen with the background color; fill() acts on a surface
+            self.screen.fill(self.settings.bg_color) # fill the screen with the background color; fill() acts on a surface
+            # we use self.settings to access the background color when filling the screen
 
             # Make the most recently drawn screen visible.
             pygame.display.flip()
