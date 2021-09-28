@@ -3,6 +3,7 @@ import sys # use tools in this module to exit the game when the player quits
 import pygame # contains the functionality we need to make a game
 
 from settings import Settings
+from ship import Ship
 
 class AlienInvasion:
     '''Overall class to manage game assets and behavior.'''
@@ -22,6 +23,10 @@ class AlienInvasion:
         display.set_mode() represents the entire game window. When we activate the game's animation loop, this surface will be
         redrawn on every pass through the loop, so it can be updated with any changes triggered by user input.'''
         pygame.display.set_caption("Alien Invasion")
+
+        self.ship = Ship(self) # make an instance of ship after the screen has been created
+        # the call to Ship() requires one argument, an instance of AI and the self argument refers to the current instance of AI
+        # this is the parameter that gives Ship access to the game's resources
 
         # set the background color
         self.bg_color = (230, 230, 230) # colors in Pygame are specified as RGB colors (red, green, blue) that range from 0-255
@@ -44,6 +49,8 @@ class AlienInvasion:
             # redraw the screen during each pass through the loop
             self.screen.fill(self.settings.bg_color) # fill the screen with the background color; fill() acts on a surface
             # we use self.settings to access the background color when filling the screen
+            self.ship.blitme() # draws the ship on the screen on top of the background
+
 
             # Make the most recently drawn screen visible.
             pygame.display.flip()
