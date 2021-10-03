@@ -14,8 +14,8 @@ class AlienInvasion:
         self.settings = Settings() # create an instance of Settings
 
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) # figure out a window size that will fill the screen
-        self.settings.screen_width = self.get_rect().width # use width and height attributes to update the settings object
-        self.settings.screen_height = self.get_rect().height 
+        self.settings.screen_width = self.screen.get_rect().width # use width and height attributes to update the settings object
+        self.settings.screen_height = self.screen.get_rect().height 
         # creates a display window on which we'll draw all the game's graphical elements
         # (1200, 800) is a tuple that defines the dimensions of the game window, which is 1200 pixels wide and 800 pixels high
         # we use the screen_width and screen_height attributes of self.settings
