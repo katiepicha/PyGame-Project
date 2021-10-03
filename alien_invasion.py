@@ -52,15 +52,23 @@ class AlienInvasion:
             if event.type == pygame.QUIT: # to detect and respond to specific events like clicking the game window's close button
                 sys.exit() # exits the game
             elif event.type == pygame.KEYDOWN: # KEYDOWN event = any key press by the user
-                if event.key == pygame.K_RIGHT: # check whether the key pressed was the right arrow key
-                    self.ship.moving_right = True # set moving_right to true when the right key is pressed
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = True # set moving_left to true when the left key is pressed
+                self.__check_keydown_events(event) # call to new method (simpler with cleaner code structure)
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = False # set moving_right to false when right key is released
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = False # set moving_left to false when left key is released
+                self.__check_keyup_events(event) # call to new method (simpler with cleaner code structure)
+
+    def __check_keydown_events(self, event):
+        '''Respond to keypresses.'''
+        if event.key == pygame.K_RIGHT: # check whether the key pressed was the right arrow key
+            self.ship.moving_right = True # set moving_right to true when the right key is pressed
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = True # set moving_left to true when the left key is pressed
+
+    def __check_keyup_events(self, event):
+        '''Respond to key releases.'''
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = False # set moving_right to false when right key is released
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = False # set moving_left to false when left key is released
 
     def _update_screen(self):
         # redraw the screen during each pass through the loop
