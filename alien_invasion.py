@@ -53,10 +53,14 @@ class AlienInvasion:
                 sys.exit() # exits the game
             elif event.type == pygame.KEYDOWN: # KEYDOWN event = any key press by the user
                 if event.key == pygame.K_RIGHT: # check whether the key pressed was the right arrow key
-                    self.ship.moving_right = True # set moving_right to true when the key is pressed
+                    self.ship.moving_right = True # set moving_right to true when the right key is pressed
+                elif event.key == pygame.K_LEFT:
+                    self.ship.moving_left = True # set moving_left to true when the left key is pressed
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = False # set moving_right to false when key is released
+                    self.ship.moving_right = False # set moving_right to false when right key is released
+                elif event.key == pygame.K_LEFT:
+                    self.ship.moving_left = False # set moving_left to false when left key is released
 
     def _update_screen(self):
         # redraw the screen during each pass through the loop

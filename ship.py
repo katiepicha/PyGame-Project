@@ -30,13 +30,18 @@ class Ship:
         '''When the player holds down the right arrow key, we want the ship to continue moving right until the player releases
         the key. When the key is released, the game will detect a pygame.KEYUP event, and we can use the KEYUP and KEYDOWN events
         together with a flag to implement continuous motion. When the flag is false (no key press), the ship will be motionless.'''
-        # Movement flag
+        # Movement flags
         self.moving_right = False
+        self.moving_left = False
 
     def update(self): # not a helper method because it will be called through an instance of ship
-        '''Update the ship's position based on the movement flag.'''
+        '''Update the ship's position based on the movement flags.'''
         if self.moving_right:
             self.rect.x += 1
+        if self.moving_left:
+            self.rect.x -= 1
+        ''' use two separate if blocks instead of an elif to allow the ship's rect.x value to be increased and then decreased 
+        when both arrow keys are held down. This results in the ship standing still.'''
 
     def blitme(self):
         '''Draw the ship at its current location.'''
