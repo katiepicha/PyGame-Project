@@ -45,9 +45,9 @@ class Ship:
     def update(self): # not a helper method because it will be called through an instance of ship
         '''Update the ship's position based on the movement flags.'''
         # Update the ship's x value, not the rect.
-        if self.moving_right:
+        if self.moving_right and self.rect.right < self.screen_rect.right: # checks the position of the ship before changing the value
             self.x += self.settings.ship_speed
-        if self.moving_left:
+        if self.moving_left and self.rect.left > 0: # if value of the left side of the rect is > 0, the ship has not reached the edge
             self.x -= self.settings.ship_speed
         ''' use two separate if blocks instead of an elif to allow the ship's rect.x value to be increased and then decreased 
         when both arrow keys are held down. This results in the ship standing still.'''
