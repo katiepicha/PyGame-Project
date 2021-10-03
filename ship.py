@@ -11,6 +11,7 @@ class Ship:
         # this gives Ship access to all the game resources defined in AlienInvasion
         '''Initialize the ship and set its starting position.'''
         self.screen = ai_game.screen # assign the screen to an attribute of Ship so we can access easily in all methods in the class
+        self.settings = ai_game.settings # create a settings attribute for Ship so we can use it in update()
         self.screen_rect = ai_game.screen.get_rect() # allows us to place the ship in the correct location on the screen
         '''Pygame lets you treat all game elements like rectangles (rects). In order to figure out if two game elements have collided,
         rectangles make that recognition much easier.'''
@@ -27,6 +28,13 @@ class Ship:
         # Start each new ship at the bottom center of the screen.
         self.rect.midbottom = self.screen_rect.midbottom # uses this attribute to center horizontally and align at the bottom
 
+        '''Because we are adjusting the position of the ship by fractions of a pixel, we need to assign the position to a variable
+        that can store a decimal value. You can use a decimal value to set an attribute of rect, but the rect will only keep the 
+        integer portion of that value. To keep track of the ship's position accurately, we define a new self.x attribute that can
+        hold decimal values.'''
+        # Store a decimal value for the ship's horizontal position.
+        self.x = float(self.rect.x) # float() function converts the value to a decimal
+
         '''When the player holds down the right arrow key, we want the ship to continue moving right until the player releases
         the key. When the key is released, the game will detect a pygame.KEYUP event, and we can use the KEYUP and KEYDOWN events
         together with a flag to implement continuous motion. When the flag is false (no key press), the ship will be motionless.'''
@@ -36,12 +44,17 @@ class Ship:
 
     def update(self): # not a helper method because it will be called through an instance of ship
         '''Update the ship's position based on the movement flags.'''
+        # Update the ship's x value, not the rect.
         if self.moving_right:
-            self.rect.x += 1
+            self.x += self.settings.ship_speed
         if self.moving_left:
-            self.rect.x -= 1
+            self.x -= self.settings.ship_speed
         ''' use two separate if blocks instead of an elif to allow the ship's rect.x value to be increased and then decreased 
         when both arrow keys are held down. This results in the ship standing still.'''
+
+        # Update rect object from self.x.
+        self.rect.x = self.x # use new value to update self.rect.x which controls the position of the ship
+        # only the integer portion of self.x will be stored in self.rect.x, but that's fine for displaying the ship
 
     def blitme(self):
         '''Draw the ship at its current location.'''

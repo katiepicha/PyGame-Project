@@ -13,4 +13,8 @@ class Settings:
         self.screen_height = 800
         self.bg_color = (230, 230, 230)
 
+        # Ship settings
+        self.ship_speed = 1.5 # position is adjusted by 1.5 pixels each pass through the loop
+        # decimals give us finer control of the ship's speed when we increase the tempo of the game
+
     
