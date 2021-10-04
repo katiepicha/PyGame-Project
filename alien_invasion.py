@@ -43,13 +43,7 @@ class AlienInvasion:
             # helper methods: do work inside a class but are not meant to be called through an instance
             self._check_events() # allows you to manage events separately from other aspects of the game
             self.ship.update() # allows position to be updated in response to player's input and ensures updated position will be used
-            self.bullets.update() # calls bullet.update() for each bullet we place in the group bullets
-
-            # Get rid of bullets that have disappeared.
-            for bullet in self.bullets.copy(): # copy() method to set up the for loop which enables us to modify bullets inside loop
-                if bullet.rect.bottom <= 0: # check each bullet to see whether it has disappeared off the top of the screen
-                    self.bullets.remove(bullet) # remove it from bullets
-
+            self._update_bullets()
             self._update_screen() # a separate method to simplify code
 
     def _check_events(self):
@@ -93,6 +87,16 @@ class AlienInvasion:
             self.bullets.add(new_bullet) # add instance to the group bullets using the add() method (similar to append)
         '''When the player presses the spacebar, we check the length of the bullets. If len(self.bullets) is less than three, 
         we create a new bullet. But if three bullets are already active, nothing happens when the spacebar is pressed.'''
+
+    def _update_bullets(self):
+        '''Update position of bullets and get rid of old bullets.'''
+        # Update bullet positions.
+        self.bullets.update() # calls bullet.update() for each bullet we place in the group bullets
+
+        # Get rid of bullets that have disappeared.
+        for bullet in self.bullets.copy(): # copy() method to set up the for loop which enables us to modify bullets inside loop
+            if bullet.rect.bottom <= 0: # check each bullet to see whether it has disappeared off the top of the screen
+                self.bullets.remove(bullet) # remove it from bullets
 
     def _update_screen(self):
         # redraw the screen during each pass through the loop
