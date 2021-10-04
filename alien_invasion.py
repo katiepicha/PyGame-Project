@@ -88,8 +88,11 @@ class AlienInvasion:
 
     def _fire_bullet(self):
         '''Create a new bullet and add it to the bullets group.'''
-        new_bullet = Bullet(self) # make an instance of Bullet
-        self.bullets.add(new_bullet) # add instance to the group bullets using the add() method (similar to append)
+        if len(self.bullets) < self.settings.bullets_allowed: 
+            new_bullet = Bullet(self) # make an instance of Bullet
+            self.bullets.add(new_bullet) # add instance to the group bullets using the add() method (similar to append)
+        '''When the player presses the spacebar, we check the length of the bullets. If len(self.bullets) is less than three, 
+        we create a new bullet. But if three bullets are already active, nothing happens when the spacebar is pressed.'''
 
     def _update_screen(self):
         # redraw the screen during each pass through the loop
