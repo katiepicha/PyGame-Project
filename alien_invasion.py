@@ -29,6 +29,8 @@ class AlienInvasion:
         self.ship = Ship(self) # make an instance of ship after the screen has been created
         # the call to Ship() requires one argument, an instance of AI and the self argument refers to the current instance of AI
         # this is the parameter that gives Ship access to the game's resources
+        self.bullets = pygame.sprite.Group() # instance of the pygame.sprite.Group class which behaves like a list
+        # we will use this group to draw bullets to the screen on each pass through the main loop and to update each bullet's position
 
         # set the background color
         self.bg_color = (230, 230, 230) # colors in Pygame are specified as RGB colors (red, green, blue) that range from 0-255
@@ -40,6 +42,7 @@ class AlienInvasion:
             # helper methods: do work inside a class but are not meant to be called through an instance
             self._check_events() # allows you to manage events separately from other aspects of the game
             self.ship.update() # allows position to be updated in response to player's input and ensures updated position will be used
+            self.bullets.update() # calls bullet.update() for each bullet we place in the group bullets
             self._update_screen() # a separate method to simplify code
 
     def _check_events(self):
