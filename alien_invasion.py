@@ -113,14 +113,18 @@ class AlienInvasion:
 
         # Create the first row of aliens.
         for alien_number in range(number_aliens_x): # set up a loop that counts from 0 to the number of aliens we need to make
-            # Create an alien and place it in the row.
-            alien = Alien(self) # create a new alien
-            alien.x = alien_width + 2 * alien_width * alien_number # set its x-coordinate value to place it in the row
-            ''' ^ Each alien is pushed to the right one alien width from the left margin. We multiply alien width by 2 to account for 
-            the space each alien takes up, including the empty space to its right, and we multiply this amount by the alien's position
-            in the row.'''
-            alien.rect.x = alien.x # use the alien's x attribute to set the position of its rect
-            self.aliens.add(alien) # and then adding it to the group that will hold the fleet
+            self.__create_alien(alien_number) # helper method that requires one parameter in addition to self (alien number)
+
+    def __create_alien(self, alien_number):
+        '''Create an alien and place it in the row.'''
+        alien = Alien(self) # create a new alien
+        alien_width = alien.rect.width # get the width inside method instead of passing as an argument
+        alien.x = alien_width + 2 * alien_width * alien_number # set its x-coordinate value to place it in the row
+        ''' ^ Each alien is pushed to the right one alien width from the left margin. We multiply alien width by 2 to account for 
+        the space each alien takes up, including the empty space to its right, and we multiply this amount by the alien's position
+        in the row.'''
+        alien.rect.x = alien.x # use the alien's x attribute to set the position of its rect
+        self.aliens.add(alien) # and then adding it to the group that will hold the fleet
 
     def _update_screen(self):
         # redraw the screen during each pass through the loop
