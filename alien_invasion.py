@@ -5,6 +5,7 @@ import pygame # contains the functionality we need to make a game
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class AlienInvasion:
     '''Overall class to manage game assets and behavior.'''
@@ -32,6 +33,9 @@ class AlienInvasion:
         # this is the parameter that gives Ship access to the game's resources
         self.bullets = pygame.sprite.Group() # instance of the pygame.sprite.Group class which behaves like a list
         # we will use this group to draw bullets to the screen on each pass through the main loop and to update each bullet's position
+        self.aliens = pygame.sprite.Group() # create a group to hold the fleet of aliens
+
+        self.__create_fleet()
 
         # set the background color
         self.bg_color = (230, 230, 230) # colors in Pygame are specified as RGB colors (red, green, blue) that range from 0-255
@@ -98,6 +102,12 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0: # check each bullet to see whether it has disappeared off the top of the screen
                 self.bullets.remove(bullet) # remove it from bullets
 
+    def __create_fleet(self):
+        '''Create the fleet of aliens.'''
+        # Make an alien.
+        alien = Alien(self) # creating one instance of Alien
+        self.aliens.add(alien) # and then adding it to the group that will hold the fleet
+
     def _update_screen(self):
         # redraw the screen during each pass through the loop
         self.screen.fill(self.settings.bg_color) # fill the screen with the background color; fill() acts on a surface
@@ -105,6 +115,7 @@ class AlienInvasion:
         self.ship.blitme() # draws the ship on the screen on top of the background
         for bullet in self.bullets.sprites(): # bullets.sprites() returns a list of all sprites in the group bullets 
             bullet.draw_bullet() # loop through bullets.sprites() and call draw_bullet() on each one to draw fired bullets to screen
+        self.aliens.draw(self.screen) # draw() on a group draws each element in the group at the position defined by its rect attribute
         
         # Make the most recently drawn screen visible.
         pygame.display.flip()
