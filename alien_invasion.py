@@ -48,6 +48,7 @@ class AlienInvasion:
             self._check_events() # allows you to manage events separately from other aspects of the game
             self.ship.update() # allows position to be updated in response to player's input and ensures updated position will be used
             self._update_bullets()
+            self._update_aliens()
             self._update_screen() # a separate method to simplify code
 
     def _check_events(self):
@@ -101,6 +102,10 @@ class AlienInvasion:
         for bullet in self.bullets.copy(): # copy() method to set up the for loop which enables us to modify bullets inside loop
             if bullet.rect.bottom <= 0: # check each bullet to see whether it has disappeared off the top of the screen
                 self.bullets.remove(bullet) # remove it from bullets
+
+    def _update_aliens(self):
+        '''Update the positions of all aliens in the fleet.'''
+        self.aliens.update() # calls each alien's update() method
 
     def __create_fleet(self):
         '''Create the fleet of aliens.'''

@@ -24,4 +24,7 @@ class Settings:
         self.bullet_color = (60, 60, 60) # dark grey bullets
         self.bullets_allowed = 3 # limits the player to 3 bullets at a time
 
+        # Alien settings
+        self.alien_speed = 1.0
+
     
