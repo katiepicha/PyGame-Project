@@ -26,5 +26,8 @@ class Settings:
 
         # Alien settings
         self.alien_speed = 1.0
+        self.fleet_drop_speed = 10 # controls how quickly the fleet drops down the screen each time an alien reaches either edge
+        # fleet direction of 1 represents right; -1 represents left.
+        self.fleet_direction = 1
 
     
