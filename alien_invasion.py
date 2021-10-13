@@ -107,23 +107,30 @@ class AlienInvasion:
         # Create an alien and find the number of aliens in a row.
         # Spacing between each alien is equal to one alien width.
         alien = Alien(self) # need to know width and height to place so we create an alien before calculations (not part of fleet)
-        alien_width = alien.rect.width # get alien's width from its rect attribute
+        alien_width, alien_height = alien.rect.size # get alien's width and height from the size attribute in the rect object
         available_space_x = self.settings.screen_width - (2 * alien_width) # calculate the horizontal space available for aliens
         number_aliens_x = available_space_x // (2 * alien_width) # calculate the number of aliens that can fit in that space
 
-        # Create the first row of aliens.
-        for alien_number in range(number_aliens_x): # set up a loop that counts from 0 to the number of aliens we need to make
-            self.__create_alien(alien_number) # helper method that requires one parameter in addition to self (alien number)
+        # Determine the number of rows of aliens that fit on the screen.
+        ship_height = self.ship.rect.height
+        available_space_y = self.settings.screen_height - (3 * alien_height) - ship_height # calculate number of rows fit on screen
+        number_rows = available_space_y // (2 * alien_height)
 
-    def __create_alien(self, alien_number):
+        # Create the full fleet of aliens.
+        for row_number in range(number_rows): # outer loop that counts from 0 to the number of rows we want
+            for alien_number in range(number_aliens_x): # inner loop that creates the aliens in one row
+                self.__create_alien(alien_number, row_number) # helper method
+
+    def __create_alien(self, alien_number, row_number):
         '''Create an alien and place it in the row.'''
         alien = Alien(self) # create a new alien
-        alien_width = alien.rect.width # get the width inside method instead of passing as an argument
+        alien_width, alien_height = alien.rect.size # get the width and height inside method instead of passing as an argument
         alien.x = alien_width + 2 * alien_width * alien_number # set its x-coordinate value to place it in the row
         ''' ^ Each alien is pushed to the right one alien width from the left margin. We multiply alien width by 2 to account for 
         the space each alien takes up, including the empty space to its right, and we multiply this amount by the alien's position
         in the row.'''
         alien.rect.x = alien.x # use the alien's x attribute to set the position of its rect
+        alien.rect.y = alien_height + 2 * alien.rect.height * row_number # change y coorinate when not in the first row
         self.aliens.add(alien) # and then adding it to the group that will hold the fleet
 
     def _update_screen(self):
