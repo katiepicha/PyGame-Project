@@ -104,7 +104,8 @@ class AlienInvasion:
                 self.bullets.remove(bullet) # remove it from bullets
 
     def _update_aliens(self):
-        '''Update the positions of all aliens in the fleet.'''
+        '''Check if the fleet is at an edge, then update the positions of all aliens in the fleet.'''
+        self._check_fleet_edges() 
         self.aliens.update() # calls each alien's update() method
 
     def __create_fleet(self):
@@ -137,6 +138,19 @@ class AlienInvasion:
         alien.rect.x = alien.x # use the alien's x attribute to set the position of its rect
         alien.rect.y = alien_height + 2 * alien.rect.height * row_number # change y coorinate when not in the first row
         self.aliens.add(alien) # and then adding it to the group that will hold the fleet
+
+    def _check_fleet_edges(self):
+        '''Respond appropriately if any aliens have reached an edge.'''
+        for alien in self.aliens.sprites(): # loop through the fleet and call check_edges() for each alien
+            if alien.check_edges(): # if check_edges() returns True, we know alien is at the edge
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        '''Drop the entire fleet and change the fleet's direction.'''
+        for alien in self.aliens.sprites(): # loop through all the aliens and drop each one using the setting fleet_drop_speed
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1 # line isn't part of the for loop because we only want to change direction once
 
     def _update_screen(self):
         # redraw the screen during each pass through the loop
