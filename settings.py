@@ -18,7 +18,7 @@ class Settings:
         # decimals give us finer control of the ship's speed when we increase the tempo of the game
 
         # Bullet settings
-        self.bullet_speed = 1.0 # bullets will travel slightly slower than the ship
+        self.bullet_speed = 1.5 # bullets will travel slightly slower than the ship
         self.bullet_width = 3 # width of 3 pixels
         self.bullet_height = 15 # height of 15 pixels
         self.bullet_color = (60, 60, 60) # dark grey bullets
