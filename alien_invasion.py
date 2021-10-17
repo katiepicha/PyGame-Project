@@ -50,11 +50,14 @@ class AlienInvasion:
         '''Start the main loop for the game.'''
         while True: # runs continually
             # helper methods: do work inside a class but are not meant to be called through an instance
-            self._check_events() # allows you to manage events separately from other aspects of the game
-            self.ship.update() # allows position to be updated in response to player's input and ensures updated position will be used
-            self._update_bullets()
-            self._update_aliens()
-            self._update_screen() # a separate method to simplify code
+            self._check_events() # allows you to manage events separately from other aspects of the game (always need to call)
+
+            if self.stats.game_active: # only called when the game is active
+                self.ship.update() # allows position to be updated in response to player's input and ensures updated position will be used
+                self._update_bullets()
+                self._update_aliens()
+
+            self._update_screen() # a separate method to simplify code (always need to call)
 
     def _check_events(self):
         # Watch for keyboard and mouse events.
