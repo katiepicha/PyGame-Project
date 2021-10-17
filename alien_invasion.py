@@ -195,19 +195,22 @@ class AlienInvasion:
 
     def __ship_hit(self):
         '''Respond to the ship being hit by an alien.'''
-        # Decrement ships_left.
-        self.stats.ships_left -= 1 # reduce the number of ships left by 1 when an alien hits a ship
+        if self.stats.ships_left > 0: # tests to make sure player has at least one ship remaining, if so create new fleet and move on
+            # Decrement ships_left.
+            self.stats.ships_left -= 1 # reduce the number of ships left by 1 when an alien hits a ship
 
-        # Get rid of any remaining aliens and bullets.
-        self.aliens.empty()
-        self.bullets.empty() # empty the groups aliens and bullets
+            # Get rid of any remaining aliens and bullets.
+            self.aliens.empty()
+            self.bullets.empty() # empty the groups aliens and bullets
 
-        # Create a new fleet and center the ship.
-        self.__create_fleet()
-        self.ship.center_ship()
+            # Create a new fleet and center the ship.
+            self.__create_fleet()
+            self.ship.center_ship()
 
-        # Pause.
-        sleep(0.5) # pauses program execution for a half second, long enough for the player to see that the alien has hit the ship
+            # Pause.
+            sleep(0.5) # pauses program execution for a half second, long enough for the player to see that the alien has hit the ship
+        else:
+            self.stats.game_active = False
 
     def _update_screen(self):
         # redraw the screen during each pass through the loop
