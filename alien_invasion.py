@@ -1,8 +1,10 @@
 import sys # use tools in this module to exit the game when the player quits
+from time import sleep # allows us to pause the game for a moment when the ship is hit
 
 import pygame # contains the functionality we need to make a game
 
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -27,6 +29,9 @@ class AlienInvasion:
         display.set_mode() represents the entire game window. When we activate the game's animation loop, this surface will be
         redrawn on every pass through the loop, so it can be updated with any changes triggered by user input.'''
         pygame.display.set_caption("Alien Invasion")
+
+        # Create an instance to store game statistics.
+        self.stats = GameStats(self)
 
         self.ship = Ship(self) # make an instance of ship after the screen has been created
         # the call to Ship() requires one argument, an instance of AI and the self argument refers to the current instance of AI
@@ -130,7 +135,7 @@ class AlienInvasion:
         the sprite. Here, it loops through the group aliens and returns the first alien it finds that has collided with the ship.'''
         # Look for alien-ship collisions.
         if pygame.sprite.spritecollideany(self.ship, self.aliens): # if no collisions occur, the returns None and the if won't execute
-            print("Ship hit!!!") # if it finds a collision, the if block will execute
+            self.__ship_hit() # if it finds a collision, the if block will execute
 
     def __create_fleet(self):
         '''Create the fleet of aliens.'''
@@ -175,6 +180,22 @@ class AlienInvasion:
         for alien in self.aliens.sprites(): # loop through all the aliens and drop each one using the setting fleet_drop_speed
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1 # line isn't part of the for loop because we only want to change direction once
+
+    def __ship_hit(self):
+        '''Respond to the ship being hit by an alien.'''
+        # Decrement ships_left.
+        self.stats.ships_left -= 1 # reduce the number of ships left by 1 when an alien hits a ship
+
+        # Get rid of any remaining aliens and bullets.
+        self.aliens.empty()
+        self.bullets.empty() # empty the groups aliens and bullets
+
+        # Create a new fleet and center the ship.
+        self.__create_fleet()
+        self.ship.center_ship()
+
+        # Pause.
+        sleep(0.5) # pauses program execution for a half second, long enough for the player to see that the alien has hit the ship
 
     def _update_screen(self):
         # redraw the screen during each pass through the loop

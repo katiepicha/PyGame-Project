@@ -16,6 +16,7 @@ class Settings:
         # Ship settings
         self.ship_speed = 1.5 # position is adjusted by 1.5 pixels each pass through the loop
         # decimals give us finer control of the ship's speed when we increase the tempo of the game
+        self.ship_limit = 3 # the number of ships the player starts with
 
         # Bullet settings
         self.bullet_speed = 1.5 # bullets will travel slightly slower than the ship
