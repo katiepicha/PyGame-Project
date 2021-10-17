@@ -102,6 +102,14 @@ class AlienInvasion:
         for bullet in self.bullets.copy(): # copy() method to set up the for loop which enables us to modify bullets inside loop
             if bullet.rect.bottom <= 0: # check each bullet to see whether it has disappeared off the top of the screen
                 self.bullets.remove(bullet) # remove it from bullets
+        
+        '''The sprite.groupcollide() function compares the rects of each element in one group with the rects of each element in
+        another group. In this case, it compares each bullet's rect with the alien's rect and returns a dictionary containing
+        the bullets and aliens that have collided. Each key in the dictionary will be a bullet, and the corresponding value will
+        be the alient that was hit.'''
+        # Check for any bullets that have hit aliens.
+        #   If so, get rid of the bullet and the alien. (The two True arguments will delete the bullets and aliens)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
     def _update_aliens(self):
         '''Check if the fleet is at an edge, then update the positions of all aliens in the fleet.'''
