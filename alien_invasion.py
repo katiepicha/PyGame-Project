@@ -125,6 +125,13 @@ class AlienInvasion:
         self._check_fleet_edges() 
         self.aliens.update() # calls each alien's update() method
 
+        '''The spritecollideany() function takes two arguments: a sprite and a group. The functions looks for any member of the group
+        that has collided with the sprite and stops looking through the group as soon as it finds one member that has collided with
+        the sprite. Here, it loops through the group aliens and returns the first alien it finds that has collided with the ship.'''
+        # Look for alien-ship collisions.
+        if pygame.sprite.spritecollideany(self.ship, self.aliens): # if no collisions occur, the returns None and the if won't execute
+            print("Ship hit!!!") # if it finds a collision, the if block will execute
+
     def __create_fleet(self):
         '''Create the fleet of aliens.'''
         # Create an alien and find the number of aliens in a row.
