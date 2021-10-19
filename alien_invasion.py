@@ -5,6 +5,7 @@ import pygame # contains the functionality we need to make a game
 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from ship import Ship
 from bullet import Bullet
@@ -31,8 +32,9 @@ class AlienInvasion:
         redrawn on every pass through the loop, so it can be updated with any changes triggered by user input.'''
         pygame.display.set_caption("Alien Invasion")
 
-        # Create an instance to store game statistics.
+        # Create an instance to store game statistics and create a scoreboard.
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         self.ship = Ship(self) # make an instance of ship after the screen has been created
         # the call to Ship() requires one argument, an instance of AI and the self argument refers to the current instance of AI
@@ -252,6 +254,9 @@ class AlienInvasion:
         for bullet in self.bullets.sprites(): # bullets.sprites() returns a list of all sprites in the group bullets 
             bullet.draw_bullet() # loop through bullets.sprites() and call draw_bullet() on each one to draw fired bullets to screen
         self.aliens.draw(self.screen) # draw() on a group draws each element in the group at the position defined by its rect attribute
+
+        # Draw the score information.
+        self.sb.show_score()
         
         # Draw the play button if the game is inactive.
         # to make play button visible above other elements, we draw it after the other elements, but before flipping to new screen
