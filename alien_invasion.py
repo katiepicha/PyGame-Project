@@ -5,6 +5,7 @@ import pygame # contains the functionality we need to make a game
 
 from settings import Settings
 from game_stats import GameStats
+from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -45,6 +46,9 @@ class AlienInvasion:
         # set the background color
         self.bg_color = (230, 230, 230) # colors in Pygame are specified as RGB colors (red, green, blue) that range from 0-255
         # you can mix values to create up to 16 million colors. this produces a light gray background color 
+
+        # Make the Play button.
+        self.play_button = Button(self, "Play") # creates an instance of Button with the label "Play"
 
     def run_game(self): # game is controlled by the run_game() method
         '''Start the main loop for the game.'''
@@ -224,6 +228,11 @@ class AlienInvasion:
             bullet.draw_bullet() # loop through bullets.sprites() and call draw_bullet() on each one to draw fired bullets to screen
         self.aliens.draw(self.screen) # draw() on a group draws each element in the group at the position defined by its rect attribute
         
+        # Draw the play button if the game is inactive.
+        # to make play button visible above other elements, we draw it after the other elements, but before flipping to new screen
+        if not self.stats.game_active:
+            self.play_button.draw_button()
+
         # Make the most recently drawn screen visible.
         pygame.display.flip()
         ''' draws an empty screen on each pass through the while loop, erasing the old screen so only the new screen is
