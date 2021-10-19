@@ -87,6 +87,7 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos) # flag that stores a True or False value 
         if button_clicked and not self.stats.game_active: # will restart only if Play is clicked AND the game is not currently active
             # Reset the game statistics.
+            self.settings.initialize_dynamic_settings() # return any changes settings to their initial values each new game
             self.stats.reset_stats() # reset the game statistics, which gives the player 3 new ships
             self.stats.game_active = True # game_active is True -> game begins!
 
@@ -153,6 +154,7 @@ class AlienInvasion:
             # Destroy existing bullets and create new fleet.
             self.bullets.empty() # get rid of any existing bullets by removing all remaining sprites from a group
             self.__create_fleet() # fills the screen with aliens again
+            self.settings.increase_speed() # increase the game's tempo after the last alien in a fleet has been shot down
 
     def _check_aliens_bottom(self):
         '''Check if any aliens have reached the bottom of the screen.'''
