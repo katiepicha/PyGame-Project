@@ -93,6 +93,7 @@ class AlienInvasion:
             self.stats.reset_stats() # reset the game statistics, which gives the player 3 new ships
             self.stats.game_active = True # game_active is True -> game begins!
             self.sb.prep_score() # call after resetting the game stats when starting a new game (preps scoreboard with a 0 score)
+            self.sb.prep_level() # to ensure the level image updates properly at the start of a new game
 
             # Get rid of any remaining aliens and bullets.
             self.aliens.empty() # empty groups
@@ -165,6 +166,10 @@ class AlienInvasion:
             self.bullets.empty() # get rid of any existing bullets by removing all remaining sprites from a group
             self.__create_fleet() # fills the screen with aliens again
             self.settings.increase_speed() # increase the game's tempo after the last alien in a fleet has been shot down
+
+            # Increase level.
+            self.stats.level += 1 # if the fleet is destroyed, we increment the value of stats.level
+            self.sb.prep_level() # makes sure the new level displays correctly
 
     def _check_aliens_bottom(self):
         '''Check if any aliens have reached the bottom of the screen.'''
