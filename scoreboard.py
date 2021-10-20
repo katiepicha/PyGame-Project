@@ -19,7 +19,8 @@ class Scoreboard:
 
     def prep_score(self):
         '''Turn the score into a rendered image.'''
-        score_str = str(self.stats.score) # turn numerical value stats.score into a string
+        rounded_score = round(self.stats.score, -1) # the -1 argument in the round() function rounds to the nearest 10
+        score_str = "{:,}".format(rounded_score) # inserts commas into numbers when converting to a string
         self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color) # creates the image
 
         # Display the score at the top right of the screen and expands to the left as the score increases.
