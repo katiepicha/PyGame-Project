@@ -1,10 +1,14 @@
 import pygame.font
+from pygame.sprite import Group
+
+from ship import Ship
 
 class Scoreboard:
     '''A class to report scoring information.'''
 
     def __init__(self, ai_game): # ai_game parameter allows access to the settings, screen, and stats objects
         '''Initialize scorekeeping attributes.'''
+        self.ai_game = ai_game # assign the game instance to an attribute because we'll need it to create some ships
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
         self.settings = ai_game.settings
@@ -18,6 +22,7 @@ class Scoreboard:
         self.prep_score()
         self.prep_high_score() # displayed separate from the score so we need a new method
         self.prep_level()
+        self.prep_ships()
 
     def prep_score(self):
         '''Turn the score into a rendered image.'''
@@ -51,11 +56,21 @@ class Scoreboard:
         self.level_rect.right = self.score_rect.right # sets image right attribute to match the score's right attribute
         self.level_rect.top = self.score_rect.bottom + 10 # sets top attribute 10 pixels beneath the bottom of the score image
 
+    def prep_ships(self): # creates an empty group self.ships to hold the ship instances
+        '''Show how many ships are left.'''
+        self.ships = Group() 
+        for ship_number in range(self.stats.ships_left): # to fill the group, a loop runs for every ship the player has left
+            ship = Ship(self.ai_game) # create a new ship
+            ship.rect.x = 10 + ship_number * ship.rect.width # ship will appear next to each other with a 10 pixel margin on left side
+            ship.rect.y = 10 # y value is 10 pixels down from the top of the screen
+            self.ships.add(ship) # add each new ship to the group ships
+
     def show_score(self):
         '''Draw scores and level to the screen.'''
         self.screen.blit(self.score_image, self.score_rect) # draws score image onscreen at the location score_rect specifies
         self.screen.blit(self.high_score_image, self.high_score_rect) # draws the high score at the top center of the screen
         self.screen.blit(self.level_image, self.level_rect) # draws the level image to the screen
+        self.ships.draw(self.screen) # to draw the ships remaining to the screen
 
     def check_high_score(self): # checks the current score against the high score
         '''Check to see if there's a new high score.'''

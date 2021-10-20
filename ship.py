@@ -3,13 +3,15 @@ important to pay attention to licensing when choosing artwork for games. It is e
 loads bitmaps by default. It is also important to pay attention to the background color of your image.'''
 
 import pygame
+from pygame.sprite import Sprite
 
-class Ship:
+class Ship(Sprite): # make sure ships inherits from Sprite
     '''A class to manage the ship.'''
 
     def __init__(self, ai_game): # takes the self reference and a reference to the current instance of the AlienInvasion class
         # this gives Ship access to all the game resources defined in AlienInvasion
         '''Initialize the ship and set its starting position.'''
+        super().__init__()
         self.screen = ai_game.screen # assign the screen to an attribute of Ship so we can access easily in all methods in the class
         self.settings = ai_game.settings # create a settings attribute for Ship so we can use it in update()
         self.screen_rect = ai_game.screen.get_rect() # allows us to place the ship in the correct location on the screen
@@ -64,4 +66,3 @@ class Ship:
         '''Center the ship on the screen.'''
         self.rect.midbottom = self.screen_rect.midbottom
         self.x = float(self.rect.x)
-        
