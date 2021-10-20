@@ -16,6 +16,7 @@ class Scoreboard:
 
         # Prepare the initial score image.
         self.prep_score()
+        self.prep_high_score() # displayed separate from the score so we need a new method
 
     def prep_score(self):
         '''Turn the score into a rendered image.'''
@@ -28,6 +29,24 @@ class Scoreboard:
         self.score_rect.right = self.screen_rect.right - 20 # to make sure score always lines up with the right side of the screen
         self.score_rect.top = 20
 
+    def prep_high_score(self):
+        '''Turn the high score into a rendered image.'''
+        high_score = round(self.stats.high_score, -1) # round the high score to the nearest 10
+        high_score_str = "{:,}".format(high_score) # and format with commas
+        self.high_score_image = self.font.render(high_score_str, True, self.text_color, self.settings.bg_color)
+
+        # Center the high score at the top of the screen.
+        self.high_score_rect = self.high_score_image.get_rect()
+        self.high_score_rect.centerx = self.screen_rect.centerx # center the high score rect horizontally
+        self.high_score_rect.top = self.score_rect.top # set its top attribute to match the top of the score image
+
     def show_score(self):
         '''Draw score to the screen.'''
         self.screen.blit(self.score_image, self.score_rect) # draws score image onscreen at the location score_rect specifies
+        self.screen.blit(self.high_score_image, self.high_score_rect) # draws the high score at the top center of the screen
+
+    def check_high_score(self): # checks the current score against the high score
+        '''Check to see if there's a new high score.'''
+        if self.stats.score > self.stats.high_score: # if the current score is greater,
+            self.stats.high_score = self.stats.score # we update the value of high score
+            self.prep_high_score() # updates the high score's image
