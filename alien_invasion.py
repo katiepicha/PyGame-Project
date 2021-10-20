@@ -155,7 +155,8 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
         if collisions: # check whether the collisions dictionary exists
-            self.stats.score += self.settings.alien_points # if it does, the alien's value is added to the score
+            for aliens in collisions.values(): # loop through all values in the dictionary to make sure we score all hits
+                self.stats.score += self.settings.alien_points * len(aliens) # if it does, the alien's value is added to the score
             self.sb.prep_score() # call to create new image for the updated score 
 
         if not self.aliens: # check whether the aliens group is empty (an empty group evaluates to False)
